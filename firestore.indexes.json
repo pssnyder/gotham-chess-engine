@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "games",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "created_at",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "public_games",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "is_live",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "viewers",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

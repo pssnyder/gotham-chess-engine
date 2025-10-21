@@ -1,17 +1,87 @@
 # Gotham Chess Engine
 Gotham Chess Engine is a chess engine built from the cumulative chess knowledge of the chess Youtuber GothamChess (Levy Rozman). The engine is designed to provide strong chess play and analysis, leveraging modern algorithms and techniques. It aims be approachable to beginners by applying the same principles Levy teaches in his recently release hbook "How To Win At Chess" and his Chess Deck product.
 
+## 🚀 Quick Start
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd gotham-chess-engine
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the demo:**
+   ```bash
+   python main.py
+   ```
+
+### Running Tests
+
+```bash
+pytest tests/ -v
+```
+
 ## Features
-- Principled chess play
-- Approachable opening book for black and white
-- Basic tactical heuristics
-- Key positional understanding of critical games throughout history
-- Endgame mate pattern recognition
-- Game continuation awareness (draw, stalemate, repetition)
-- Time management strategies
-- 100% solve rate for all Chess Deck puzzles
+- **Principled chess play** based on Gotham Chess teachings
+- **Educational move explanations** with strategic insights
+- **Approachable opening book** for black and white
+- **Basic tactical heuristics** with pattern recognition
+- **Key positional understanding** from critical games throughout history
+- **Game phase awareness** (opening, middlegame, endgame)
+- **Time management strategies** built into the search
+- **Comprehensive position analysis** with educational feedback
 
 ---
+
+## 🏗️ Project Structure
+
+```
+gotham-chess-engine/
+├── src/
+│   ├── core/
+│   │   ├── board.py          # Enhanced chess board with educational features
+│   │   └── pieces.py         # Piece evaluation and tactical patterns
+│   ├── openings/
+│   │   └── opening_book.py   # Opening repertoire based on Gotham teachings
+│   ├── evaluation/           # Position evaluation heuristics (planned)
+│   ├── patterns/             # Historical game patterns (planned)
+│   ├── puzzles/              # Tactical puzzle library (planned)
+│   └── engine.py             # Main engine with minimax search
+├── tests/
+│   └── test_gotham_engine.py # Comprehensive test suite
+├── main.py                   # Demo application
+├── requirements.txt          # Python dependencies
+└── setup.py                  # Package configuration
+```
+
+## 🎓 Educational Features
+
+### Opening Book
+The engine includes Gotham Chess's recommended openings with educational explanations:
+
+#### For White:
+1. **London System** - Levy's #1 recommendation for beginners
+2. **Vienna Gambit** - Aggressive opening for tactical players
+3. **Ruy Lopez** - Classical opening for positional understanding
+
+#### For Black:
+1. **Scandinavian Defense** - Levy's top recommendation for Black
+2. **Caro-Kann Defense** - Solid and reliable defense
+3. **Queen's Gambit Declined** - Classical central control
+
+### Position Analysis
+The engine provides comprehensive position analysis including:
+- **Material balance** with piece activity bonuses
+- **King safety** evaluation using pawn shield and piece proximity
+- **Development scores** tracking piece mobilization
+- **Center control** measuring influence over key squares
+- **Tactical motif detection** (forks, pins, skewers, etc.)
 
 ## Components
 
@@ -51,3 +121,101 @@ Gotham Chess Engine is a chess engine built from the cumulative chess knowledge 
 - Remove the guard (x3)
 - Deflect the defense (x3)
 - Play a sacrifice (x3)
+
+## 🔧 Usage Examples
+
+### Basic Engine Usage
+
+```python
+from src.engine import GothamChessEngine
+
+# Initialize the engine
+engine = GothamChessEngine()
+
+# Get the best move for the current position
+best_move = engine.get_best_move()
+print(f"Recommended move: {best_move}")
+
+# Get educational explanation
+explanation = engine.get_move_explanation(best_move)
+print(f"Why this move: {explanation['educational_notes'][0]}")
+
+# Analyze the position
+analysis = engine.get_position_analysis()
+print(f"Game phase: {analysis['game_phase']}")
+print(f"Material balance: {analysis['material_balance']}")
+```
+
+### Opening Book Usage
+
+```python
+from src.openings.opening_book import GothamOpeningBook
+from src.core.board import GothamBoard
+
+book = GothamOpeningBook()
+board = GothamBoard()
+
+# Get opening move suggestion
+opening_move = book.get_opening_move(board, chess.WHITE)
+
+# Get opening explanation
+opening_name = book.get_opening_name(board)
+if opening_name:
+    explanation = book.get_opening_explanation(opening_name)
+    print(f"Opening principles: {explanation['principles']}")
+```
+
+## 🎯 Development Status
+
+### ✅ Completed
+- [x] Core chess board representation with educational features
+- [x] Piece evaluation with positional bonuses
+- [x] Opening book with Gotham Chess recommendations
+- [x] Main engine with minimax search and alpha-beta pruning
+- [x] Educational move explanations
+- [x] Comprehensive position analysis
+- [x] Basic tactical pattern recognition
+- [x] Test suite with comprehensive coverage
+
+### 🚧 In Progress / Planned
+- [ ] Enhanced evaluation heuristics module
+- [ ] Historical game pattern recognition system
+- [ ] Comprehensive puzzle library
+- [ ] UCI protocol interface
+- [ ] Advanced tactical pattern recognition
+- [ ] Endgame tablebase integration
+- [ ] Performance optimizations
+- [ ] GUI interface
+
+## 🤝 Contributing
+
+This project is built to embody the chess teachings and philosophy of GothamChess (Levy Rozman). Contributions should focus on:
+
+1. **Educational value** - Features should help players learn and improve
+2. **Principled play** - Following fundamental chess principles
+3. **Clarity over complexity** - Code and explanations should be clear and accessible
+4. **Testing** - All new features should include comprehensive tests
+
+## 📚 Educational Philosophy
+
+The Gotham Chess Engine is designed around these core educational principles:
+
+1. **Principles over Memorization** - Teach underlying concepts rather than rote learning
+2. **Practical Application** - Focus on positions and patterns that occur in real games
+3. **Progressive Learning** - Start with fundamentals and gradually introduce complexity
+4. **Immediate Feedback** - Provide explanations and reasoning for all suggestions
+5. **Pattern Recognition** - Help players recognize common tactical and positional themes
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **GothamChess (Levy Rozman)** for the chess knowledge and educational approach
+- **python-chess library** for the solid chess programming foundation
+- **Chess community** for continuous learning and improvement
+
+---
+
+*"The most important thing is to not be afraid to take a chance. You have to risk it to get the biscuit."* - Levy Rozman

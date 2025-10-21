@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Chess board styling */
+.chessboard {
+  margin: 0 auto;
+}
+
+/* Custom piece styling - you can customize this when you add your piece images */
+.piece {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.piece:hover {
+  transform: scale(1.1);
+}
+
+/* Selected square highlighting */
+.square-selected {
+  background-color: rgba(255, 255, 0, 0.4) !important;
+}
+
+/* Legal move highlighting */
+.square-legal-move {
+  background-color: rgba(0, 255, 0, 0.2) !important;
+}
+
+/* Last move highlighting */
+.square-last-move {
+  background-color: rgba(255, 165, 0, 0.4) !important;
+}
+
+/* Analysis panel custom styling */
+.analysis-panel {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Move history styling */
+.move-history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .chessboard {
+    width: 100% !important;
+    max-width: 350px;
+  }
+}
+
+/* Loading spinner overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Educational notes styling */
+.educational-note {
+  background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, .3);
+  color: white;
+  height: 48px;
+  padding: 0 30px;
+  margin: 8px 0;
+}
+
+/* Game status indicators */
+.status-active {
+  color: #4caf50;
+}
+
+.status-check {
+  color: #ff9800;
+  animation: pulse 1s infinite;
+}
+
+.status-checkmate {
+  color: #f44336;
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

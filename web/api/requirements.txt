@@ -1,0 +1,10 @@
+# Web API dependencies
+fastapi>=0.104.1
+uvicorn>=0.24.0
+websockets>=12.0
+pydantic>=2.5.0
+
+# Existing engine dependencies
+python-chess>=1.999
+numpy>=1.21.0
+typing-extensions>=4.0.0
