@@ -111,6 +111,50 @@ class GothamOpeningBook:
                 ]
             },
             
+            "alapin_variant": {
+                "type": OpeningType.WHITE_AGGRESSIVE,
+                "moves": ["e4", "c3", "d4"],
+                "principles": [
+                    "Early central control",
+                    "Rapid development",
+                    "Prevent Black's normal Sicilian plans",
+                    "Create space advantage"
+                ],
+                "typical_plans": [
+                    "Nf3 and Bd3 for quick development",
+                    "0-0 for king safety",
+                    "dxc5 to open lines",
+                    "Bb5+ for tempo and development"
+                ],
+                "educational_notes": [
+                    "Anti-Sicilian system that avoids main theory",
+                    "Simple and effective against c5",
+                    "Creates clear plans and objectives"
+                ]
+            },
+            
+            "danish_gambit": {
+                "type": OpeningType.WHITE_AGGRESSIVE,
+                "moves": ["e4", "d4", "c3", "Bc4"],
+                "principles": [
+                    "Sacrifice material for development",
+                    "Open lines for attack",
+                    "Quick piece mobilization",
+                    "Create immediate threats"
+                ],
+                "typical_plans": [
+                    "Nf3 and 0-0 for rapid development",
+                    "Qb3 targeting f7 and b7",
+                    "Re1 for central pressure",
+                    "Bg5 for more attacking pieces"
+                ],
+                "educational_notes": [
+                    "Romantic era gambit with tactical fireworks",
+                    "Great for developing attacking skills",
+                    "Teaches value of piece activity over material"
+                ]
+            },
+            
             # BLACK OPENINGS
             "scandinavian_defense": {
                 "type": OpeningType.BLACK_SOLID,
@@ -175,6 +219,50 @@ class GothamOpeningBook:
                     "Classical and time-tested defense",
                     "Teaches central control principles",
                     "Leads to rich strategic battles"
+                ]
+            },
+            
+            "nimzo_indian": {
+                "type": OpeningType.BLACK_SOLID,
+                "moves": ["Nf6", "e6", "Bb4"],
+                "principles": [
+                    "Control the center with pieces",
+                    "Pin the knight to restrict White",
+                    "Flexible pawn structure",
+                    "Active piece development"
+                ],
+                "typical_plans": [
+                    "Bxc3+ to damage White's structure",
+                    "d6 and e5 for central control",
+                    "0-0 and f5 for kingside play",
+                    "c5 for queenside counterplay"
+                ],
+                "educational_notes": [
+                    "Hypermodern defense focusing on piece activity",
+                    "Creates imbalanced, rich positions",
+                    "Teaches importance of piece coordination"
+                ]
+            },
+            
+            "pirc_defense": {
+                "type": OpeningType.BLACK_COUNTERATTACKING,
+                "moves": ["d6", "Nf6", "g6", "Bg7"],
+                "principles": [
+                    "Flexible piece development",
+                    "Fianchetto bishop for long diagonal",
+                    "Allow White center then counterattack",
+                    "Create dynamic imbalances"
+                ],
+                "typical_plans": [
+                    "0-0 and c6 for solid setup",
+                    "a6 and b5 for queenside expansion",
+                    "e5 for central break",
+                    "Nh5 and f5 for kingside attack"
+                ],
+                "educational_notes": [
+                    "Modern hypermodern defense",
+                    "Allows White big center then fights back",
+                    "Great for tactical players who like complications"
                 ]
             }
         }
@@ -448,6 +536,22 @@ class GothamOpeningBook:
         # Caro-Kann Defense detection
         if "e2e4" in moves and "c7c6" in moves:
             return "Caro-Kann Defense"
+        
+        # Alapin Variant detection
+        if "e2e4" in moves and "c2c3" in moves and "d2d4" in moves:
+            return "Alapin Variant"
+        
+        # Danish Gambit detection
+        if "e2e4" in moves and "d2d4" in moves and "c2c3" in moves and "f1c4" in moves:
+            return "Danish Gambit"
+        
+        # Nimzo-Indian Defense detection
+        if "d2d4" in moves and "g8f6" in moves and "f8b4" in moves:
+            return "Nimzo-Indian Defense"
+        
+        # Pirc Defense detection
+        if "e2e4" in moves and "d7d6" in moves and "g8f6" in moves and "g7g6" in moves:
+            return "Pirc Defense"
         
         return None
     
