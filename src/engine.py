@@ -307,19 +307,93 @@ class GothamChessEngine:
         """
         score = 0.0
         
-        # Check for tactical motifs
+        # Check for immediate tactical threats
+        for move in board.legal_moves:
+            # Create a copy and make the move
+            temp_board = board.copy()
+            temp_board.push(move)
+            
+            # Check if this move creates powerful tactical motifs
+            if temp_board.is_check():
+                score += 50 if board.turn == chess.WHITE else -50
+            
+            # Check for captures that win material
+            if board.is_capture(move):
+                captured_piece = board.piece_at(move.to_square)
+                if captured_piece:
+                    captured_value = self.piece_evaluator.get_piece_value(captured_piece.piece_type)
+                    attacking_piece = board.piece_at(move.from_square)
+                    if attacking_piece:
+                        attacking_value = self.piece_evaluator.get_piece_value(attacking_piece.piece_type)
+                        # Good capture if we take more valuable piece or equal trade
+                        if captured_value >= attacking_value:
+                            score += (captured_value - attacking_value) * 10
+                            if board.turn == chess.WHITE:
+                                score += captured_value
+                            else:
+                                score -= captured_value
+            
+            # Check for forks (attacking multiple pieces)
+            fork_bonus = self._evaluate_fork_potential(temp_board, move)
+            score += fork_bonus if board.turn == chess.WHITE else -fork_bonus
+            
+            temp_board.pop()
+        
+        # Check for tactical motifs in current position
         motifs = board.is_tactical_motif_present()
         
         if motifs.get("fork", False):
-            score += 25 if board.turn == chess.WHITE else -25
+            score += 200 if board.turn == chess.WHITE else -200
         
         if motifs.get("pin", False):
-            score += 15 if board.turn == chess.WHITE else -15
-        
-        if motifs.get("back_rank_mate", False):
             score += 100 if board.turn == chess.WHITE else -100
         
+        if motifs.get("back_rank_mate", False):
+            score += 500 if board.turn == chess.WHITE else -500
+        
+        # Check for mate threats
+        if board.is_check():
+            # Being in check is bad
+            score -= 30 if board.turn == chess.WHITE else 30
+            
+            # But having few escape moves is worse
+            escape_moves = sum(1 for move in board.legal_moves 
+                             if not board.copy().push(move) or not board.copy().is_check())
+            if escape_moves <= 2:
+                score -= 100 if board.turn == chess.WHITE else 100
+        
         return score
+    
+    def _evaluate_fork_potential(self, board: GothamBoard, move: chess.Move) -> float:
+        """
+        Evaluate if a move creates a fork (attacks multiple valuable pieces).
+        
+        Args:
+            board: Board position after move
+            move: The move that was made
+            
+        Returns:
+            float: Fork evaluation bonus
+        """
+        attacking_piece = board.piece_at(move.to_square)
+        if not attacking_piece:
+            return 0.0
+        
+        attacked_squares = board.attacks(move.to_square)
+        
+        valuable_targets = []
+        for square in attacked_squares:
+            piece = board.piece_at(square)
+            if piece and piece.color != attacking_piece.color:
+                piece_value = self.piece_evaluator.get_piece_value(piece.piece_type)
+                if piece_value >= 300:  # Rook or higher value
+                    valuable_targets.append(piece_value)
+        
+        # If attacking 2+ valuable pieces, it's a fork
+        if len(valuable_targets) >= 2:
+            return sum(valuable_targets) * 0.5  # Fork bonus
+        
+        return 0.0
     
     def get_move_explanation(self, move: chess.Move) -> Dict[str, Any]:
         """

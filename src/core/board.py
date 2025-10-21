@@ -37,7 +37,10 @@ class GothamBoard(chess.Board):
         Args:
             fen: FEN string for custom position (optional)
         """
-        super().__init__(fen)
+        if fen is None:
+            super().__init__()  # Start with starting position
+        else:
+            super().__init__(fen)
         self.move_history: List[chess.Move] = []
         self.educational_notes: List[str] = []
         

@@ -58,18 +58,20 @@ echo.
 echo 1. Run UCI Engine (for chess GUIs)
 echo 2. Test Engine Functionality
 echo 3. Run Puzzle Training Session
-echo 4. Check Feature Completeness
-echo 5. Quick Engine Test
-echo 6. Exit
+echo 4. Test Puzzle Solving Capability
+echo 5. Check Feature Completeness
+echo 6. Quick Engine Test
+echo 7. Exit
 echo.
-set /p choice="Enter your choice (1-6): "
+set /p choice="Enter your choice (1-7): "
 
 if "%choice%"=="1" goto uci_engine
 if "%choice%"=="2" goto test_engine
 if "%choice%"=="3" goto puzzle_training
-if "%choice%"=="4" goto feature_check
-if "%choice%"=="5" goto quick_test
-if "%choice%"=="6" goto exit
+if "%choice%"=="4" goto test_puzzles
+if "%choice%"=="5" goto feature_check
+if "%choice%"=="6" goto quick_test
+if "%choice%"=="7" goto exit
 
 echo Invalid choice. Please try again.
 goto menu
@@ -83,10 +85,17 @@ echo.
 echo The UCI engine is now running. You can:
 echo 1. Connect this to a chess GUI (like Arena or Cute Chess)
 echo 2. Test UCI commands manually
+echo 3. Use this batch file path as the engine executable in Arena
 echo.
-echo Type 'quit' to exit the engine
+echo For Arena Chess GUI:
+echo   - Engine path: [full path to this batch file]
+echo   - Or Engine path: [full path to uci_engine.py with python.exe]
 echo.
-echo Starting engine...
+echo Type 'quit' to exit the engine when testing manually
+echo.
+echo Starting UCI engine...
+echo.
+REM For GUI compatibility, we need to start python with the UCI engine directly
 python uci_engine.py
 goto menu
 
@@ -143,48 +152,21 @@ echo ===============================================
 echo           PUZZLE TRAINING SESSION
 echo ===============================================
 echo.
-python -c "
-import sys
-sys.path.append('.')
-try:
-    from src.puzzles.puzzle_library import GothamPuzzleLibrary, PuzzleCategory
-    import random
-    
-    puzzle_lib = GothamPuzzleLibrary()
-    
-    print('🧩 Welcome to Gotham Chess Puzzle Training!')
-    print('')
-    print('Available categories:')
-    for i, category in enumerate(PuzzleCategory, 1):
-        count = len(puzzle_lib.puzzles[category])
-        print(f'{i}. {category.value.replace(\"_\", \" \").title()} ({count} puzzles)')
-    
-    print('')
-    
-    # Get random puzzle set
-    training_set = puzzle_lib.get_puzzle_set(count=3)
-    
-    print(f'Here are {len(training_set)} tactical puzzles for you:')
-    print('=' * 50)
-    
-    for i, puzzle in enumerate(training_set, 1):
-        print(f'\\nPuzzle {i}: {puzzle.category.value.replace(\"_\", \" \").title()}')
-        print(f'Difficulty: {\"⭐\" * puzzle.difficulty}')
-        print(f'Position: {puzzle.fen}')
-        print(f'Task: {puzzle.description}')
-        print(f'Hint: {puzzle_lib.get_hint(puzzle)}')
-        print(f'Solution: {puzzle.solution}')
-        print(f'Learn: {puzzle.educational_note}')
-        print('-' * 40)
-    
-    stats = puzzle_lib.get_puzzle_statistics()
-    print(f'\\n📊 Puzzle Library Stats:')
-    print(f'Total puzzles: {stats[\"total_puzzles\"]}')
-    print(f'Difficulty levels: Easy({stats[\"by_difficulty\"][1]}), Medium({stats[\"by_difficulty\"][2]}), Hard({stats[\"by_difficulty\"][3]})')
-    
-except Exception as e:
-    print(f'❌ Error: {e}')
-"
+python test_puzzles.py demo
+echo.
+pause
+goto menu
+
+:test_puzzles
+echo.
+echo ===============================================
+echo           PUZZLE SOLVING CAPABILITY TEST
+echo ===============================================
+echo.
+echo Testing engine's ability to solve tactical puzzles...
+echo This will verify the engine can solve at least 3 puzzles per category.
+echo.
+python test_puzzles.py
 echo.
 pause
 goto menu

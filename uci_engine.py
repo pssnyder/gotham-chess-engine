@@ -167,7 +167,12 @@ class UCIEngine:
             
             if fen_parts:
                 fen = " ".join(fen_parts)
-                self.engine.set_position(fen)
+                try:
+                    self.engine.set_position(fen)
+                except ValueError as e:
+                    if self.debug_mode:
+                        self.send_debug(f"Invalid FEN: {fen}")
+                    return
         else:
             return
         
@@ -175,11 +180,18 @@ class UCIEngine:
         if move_index > 0 and move_index < len(args):
             for move_str in args[move_index:]:
                 try:
-                    move = self.engine.board.parse_san(move_str)
-                    self.engine.make_move(move)
+                    # Try UCI format first
+                    move = chess.Move.from_uci(move_str)
+                    if move in self.engine.board.legal_moves:
+                        self.engine.make_move(move)
+                    else:
+                        if self.debug_mode:
+                            self.send_debug(f"Illegal move: {move_str}")
+                        break
                 except ValueError:
                     try:
-                        move = self.engine.board.parse_uci(move_str)
+                        # Try SAN format as fallback
+                        move = self.engine.board.parse_san(move_str)
                         self.engine.make_move(move)
                     except ValueError:
                         if self.debug_mode:
@@ -267,17 +279,19 @@ class UCIEngine:
                 info_line += f" score cp {int(position_eval * 100)}"
                 info_line += f" time {int(search_time * 1000)}"
                 info_line += f" nodes {nodes}"
-                info_line += f" pv {best_move}"
+                info_line += f" pv {str(best_move)}"
                 
                 self.send_output(info_line)
                 
                 # Send best move
-                self.send_output(f"bestmove {best_move}")
+                best_move_uci = str(best_move)
+                self.send_output(f"bestmove {best_move_uci}")
                 
                 # Educational output if enabled
                 if self.options["Educational_Mode"]["value"] and self.debug_mode:
                     explanation = self.engine.get_move_explanation(best_move)
-                    self.send_debug(f"Move explanation: {explanation['educational_notes']}")
+                    if explanation.get('educational_notes'):
+                        self.send_debug(f"Move explanation: {explanation['educational_notes'][0]}")
             
             elif not self.stop_search:
                 # No legal moves (game over)
