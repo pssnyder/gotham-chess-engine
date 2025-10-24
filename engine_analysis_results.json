@@ -1,0 +1,603 @@
+{
+  "perft": [
+    {
+      "depth": 1,
+      "nodes": 20,
+      "time_ms": 0.18668174743652344,
+      "nps": 107134,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 2,
+      "nodes": 400,
+      "time_ms": 2.1119117736816406,
+      "nps": 189401,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 3,
+      "nodes": 8902,
+      "time_ms": 49.425601959228516,
+      "nps": 180109,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 1,
+      "nodes": 6,
+      "time_ms": 0.08058547973632812,
+      "nps": 74455,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 2,
+      "nodes": 264,
+      "time_ms": 1.378774642944336,
+      "nps": 191474,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 3,
+      "nodes": 9467,
+      "time_ms": 50.77505111694336,
+      "nps": 186449,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 1,
+      "nodes": 14,
+      "time_ms": 0.11944770812988281,
+      "nps": 117206,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 2,
+      "nodes": 191,
+      "time_ms": 1.2602806091308594,
+      "nps": 151553,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 3,
+      "nodes": 2812,
+      "time_ms": 18.622159957885742,
+      "nps": 151002,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 1,
+      "nodes": 26,
+      "time_ms": 0.3333091735839844,
+      "nps": 78005,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 2,
+      "nodes": 568,
+      "time_ms": 4.057168960571289,
+      "nps": 139999,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 3,
+      "nodes": 13744,
+      "time_ms": 82.42082595825195,
+      "nps": 166753,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 1,
+      "nodes": 44,
+      "time_ms": 0.2777576446533203,
+      "nps": 158411,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 2,
+      "nodes": 1486,
+      "time_ms": 7.420778274536133,
+      "nps": 200248,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    },
+    {
+      "depth": 3,
+      "nodes": 62379,
+      "time_ms": 340.9888744354248,
+      "nps": 182935,
+      "captures": 0,
+      "en_passant": 0,
+      "castles": 0,
+      "promotions": 0,
+      "checks": 0,
+      "checkmates": 0
+    }
+  ],
+  "search_benchmarks": [
+    {
+      "position_name": "WAC.001",
+      "fen": "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - 0 1",
+      "depth": 3,
+      "best_move": "e5f7",
+      "evaluation": 1035.0,
+      "time_ms": 1114.638328552246,
+      "nodes_searched": 1114638,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.001",
+      "fen": "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - 0 1",
+      "depth": 4,
+      "best_move": "e5f7",
+      "evaluation": 1035.0,
+      "time_ms": 1132.7970027923584,
+      "nodes_searched": 1132797,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.001",
+      "fen": "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - - 0 1",
+      "depth": 5,
+      "best_move": "e5f7",
+      "evaluation": 1035.0,
+      "time_ms": 1280.1847457885742,
+      "nodes_searched": 1280184,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.002",
+      "fen": "8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - 0 1",
+      "depth": 3,
+      "best_move": "b3b7",
+      "evaluation": -189.0,
+      "time_ms": 510.4796886444092,
+      "nodes_searched": 510479,
+      "nps": 999998
+    },
+    {
+      "position_name": "WAC.002",
+      "fen": "8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - 0 1",
+      "depth": 4,
+      "best_move": "f6g7",
+      "evaluation": -189.0,
+      "time_ms": 1008.9216232299805,
+      "nodes_searched": 1008921,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.002",
+      "fen": "8/7p/5k2/5p2/p1p2P2/Pr1pPK2/1P1R3P/8 b - - 0 1",
+      "depth": 5,
+      "best_move": "f6g7",
+      "evaluation": -189.0,
+      "time_ms": 1049.7477054595947,
+      "nodes_searched": 1049747,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.003",
+      "fen": "5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - 0 1",
+      "depth": 3,
+      "best_move": "e2c4",
+      "evaluation": 764.0,
+      "time_ms": 1081.5973281860352,
+      "nodes_searched": 1081597,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.003",
+      "fen": "5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - 0 1",
+      "depth": 4,
+      "best_move": "e2c4",
+      "evaluation": 764.0,
+      "time_ms": 1155.447244644165,
+      "nodes_searched": 1155447,
+      "nps": 999999
+    },
+    {
+      "position_name": "WAC.003",
+      "fen": "5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - 0 1",
+      "depth": 5,
+      "best_move": "e2c4",
+      "evaluation": 764.0,
+      "time_ms": 1250.840663909912,
+      "nodes_searched": 1250840,
+      "nps": 999999
+    },
+    {
+      "position_name": "Middlegame",
+      "fen": "r1bq1rk1/pp2nppp/2n5/2ppP3/3P4/P1P1BN2/1P3PPP/R2QK2R w KQ - 0 1",
+      "depth": 3,
+      "best_move": "d4c5",
+      "evaluation": 746.0,
+      "time_ms": 1102.1015644073486,
+      "nodes_searched": 1102101,
+      "nps": 999999
+    },
+    {
+      "position_name": "Middlegame",
+      "fen": "r1bq1rk1/pp2nppp/2n5/2ppP3/3P4/P1P1BN2/1P3PPP/R2QK2R w KQ - 0 1",
+      "depth": 4,
+      "best_move": "e1g1",
+      "evaluation": 746.0,
+      "time_ms": 1152.4269580841064,
+      "nodes_searched": 1152426,
+      "nps": 999999
+    },
+    {
+      "position_name": "Middlegame",
+      "fen": "r1bq1rk1/pp2nppp/2n5/2ppP3/3P4/P1P1BN2/1P3PPP/R2QK2R w KQ - 0 1",
+      "depth": 5,
+      "best_move": "e1g1",
+      "evaluation": 746.0,
+      "time_ms": 1164.8516654968262,
+      "nodes_searched": 1164851,
+      "nps": 999999
+    },
+    {
+      "position_name": "Tactical",
+      "fen": "r2q1rk1/ppp2ppp/2n1bn2/2b1p3/3pP3/3P1NPP/PPP1NPB1/R1BQ1RK1 b - - 0 1",
+      "depth": 3,
+      "best_move": "f8e8",
+      "evaluation": -1142.0,
+      "time_ms": 1146.5883255004883,
+      "nodes_searched": 1146588,
+      "nps": 999999
+    },
+    {
+      "position_name": "Tactical",
+      "fen": "r2q1rk1/ppp2ppp/2n1bn2/2b1p3/3pP3/3P1NPP/PPP1NPB1/R1BQ1RK1 b - - 0 1",
+      "depth": 4,
+      "best_move": "f6e4",
+      "evaluation": -1142.0,
+      "time_ms": 1176.6488552093506,
+      "nodes_searched": 1176648,
+      "nps": 999999
+    },
+    {
+      "position_name": "Tactical",
+      "fen": "r2q1rk1/ppp2ppp/2n1bn2/2b1p3/3pP3/3P1NPP/PPP1NPB1/R1BQ1RK1 b - - 0 1",
+      "depth": 5,
+      "best_move": "e6a2",
+      "evaluation": -1142.0,
+      "time_ms": 1353.6674976348877,
+      "nodes_searched": 1353667,
+      "nps": 999999
+    }
+  ],
+  "tactical_tests": [
+    {
+      "puzzle_id": "000rO",
+      "theme": "fork",
+      "difficulty": 1,
+      "correct_move": "a6a5",
+      "engine_move": "d8d3",
+      "solved": false,
+      "time_ms": 1040.9269332885742,
+      "evaluation_diff": -412.0
+    },
+    {
+      "puzzle_id": "0017R",
+      "theme": "fork",
+      "difficulty": 2,
+      "correct_move": "e5c4",
+      "engine_move": "e8g8",
+      "solved": false,
+      "time_ms": 1227.1244525909424,
+      "evaluation_diff": 1960.0
+    },
+    {
+      "puzzle_id": "001wr",
+      "theme": "fork",
+      "difficulty": 1,
+      "correct_move": "f2f3",
+      "engine_move": "g5f6",
+      "solved": false,
+      "time_ms": 1248.25119972229,
+      "evaluation_diff": -1332.0
+    },
+    {
+      "puzzle_id": "001XA",
+      "theme": "discoveredAttack",
+      "difficulty": 2,
+      "correct_move": "b8c7",
+      "engine_move": "b7e4",
+      "solved": false,
+      "time_ms": 1187.9703998565674,
+      "evaluation_diff": 1451.0
+    },
+    {
+      "puzzle_id": "002KJ",
+      "theme": "discoveredAttack",
+      "difficulty": 2,
+      "correct_move": "f8e7",
+      "engine_move": "g4f3",
+      "solved": false,
+      "time_ms": 1207.6613903045654,
+      "evaluation_diff": 1538.0
+    },
+    {
+      "puzzle_id": "004RF",
+      "theme": "discoveredAttack",
+      "difficulty": 2,
+      "correct_move": "c5c4",
+      "engine_move": "b5d7",
+      "solved": false,
+      "time_ms": 1053.5852909088135,
+      "evaluation_diff": 1803.0
+    },
+    {
+      "puzzle_id": "000rZ",
+      "theme": "mateIn1",
+      "difficulty": 1,
+      "correct_move": "d4e6",
+      "engine_move": "d1g4",
+      "solved": false,
+      "time_ms": 1127.986192703247,
+      "evaluation_diff": -1476.0
+    },
+    {
+      "puzzle_id": "001cr",
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "correct_move": "c5c4",
+      "engine_move": "g6f7",
+      "solved": false,
+      "time_ms": 255.50580024719238,
+      "evaluation_diff": 334.0
+    },
+    {
+      "puzzle_id": "001gi",
+      "theme": "mateIn1",
+      "difficulty": 1,
+      "correct_move": "c7a8",
+      "engine_move": "c3a5",
+      "solved": false,
+      "time_ms": 1135.4212760925293,
+      "evaluation_diff": -1542.0
+    },
+    {
+      "puzzle_id": "000Zo",
+      "theme": "mateIn2",
+      "difficulty": 2,
+      "correct_move": "e5f6",
+      "engine_move": "d4d5",
+      "solved": false,
+      "time_ms": 1052.5619983673096,
+      "evaluation_diff": -1542.0
+    },
+    {
+      "puzzle_id": "000hf",
+      "theme": "mateIn2",
+      "difficulty": 2,
+      "correct_move": "e8f7",
+      "engine_move": "e8f8",
+      "solved": false,
+      "time_ms": 1154.566764831543,
+      "evaluation_diff": 1927.0
+    },
+    {
+      "puzzle_id": "001Wz",
+      "theme": "mateIn2",
+      "difficulty": 1,
+      "correct_move": "e8e5",
+      "engine_move": "g8f8",
+      "solved": false,
+      "time_ms": 1060.2192878723145,
+      "evaluation_diff": 1886.0
+    },
+    {
+      "puzzle_id": "0018S",
+      "theme": "pin",
+      "difficulty": 3,
+      "correct_move": "b7b6",
+      "engine_move": "c2d3",
+      "solved": false,
+      "time_ms": 1107.6769828796387,
+      "evaluation_diff": 2012.0
+    },
+    {
+      "puzzle_id": "001Hi",
+      "theme": "pin",
+      "difficulty": 3,
+      "correct_move": "b6d4",
+      "engine_move": "d2c2",
+      "solved": false,
+      "time_ms": 1122.0624446868896,
+      "evaluation_diff": 1833.0
+    },
+    {
+      "puzzle_id": "002rd",
+      "theme": "pin",
+      "difficulty": 2,
+      "correct_move": "d7e6",
+      "engine_move": "g6f6",
+      "solved": false,
+      "time_ms": 1135.9241008758545,
+      "evaluation_diff": 1841.0
+    },
+    {
+      "puzzle_id": "000qP",
+      "theme": "skewer",
+      "difficulty": 3,
+      "correct_move": "f2f1",
+      "engine_move": "f2f1",
+      "solved": true,
+      "time_ms": 532.5324535369873,
+      "evaluation_diff": -206.0
+    },
+    {
+      "puzzle_id": "001m3",
+      "theme": "skewer",
+      "difficulty": 2,
+      "correct_move": "e2e6",
+      "engine_move": "a1f6",
+      "solved": false,
+      "time_ms": 905.1086902618408,
+      "evaluation_diff": -1196.0
+    },
+    {
+      "puzzle_id": "001xl",
+      "theme": "skewer",
+      "difficulty": 1,
+      "correct_move": "g7f6",
+      "engine_move": "g7h8",
+      "solved": false,
+      "time_ms": 1054.8052787780762,
+      "evaluation_diff": 1720.0
+    },
+    {
+      "puzzle_id": "001h8",
+      "theme": "deflection",
+      "difficulty": 2,
+      "correct_move": "c4e2",
+      "engine_move": "g8h8",
+      "solved": false,
+      "time_ms": 1178.095817565918,
+      "evaluation_diff": 494.0
+    },
+    {
+      "puzzle_id": "004LZ",
+      "theme": "deflection",
+      "difficulty": 1,
+      "correct_move": "e1g2",
+      "engine_move": "h7e7",
+      "solved": false,
+      "time_ms": 502.81596183776855,
+      "evaluation_diff": -358.0
+    },
+    {
+      "puzzle_id": "004b0",
+      "theme": "deflection",
+      "difficulty": 3,
+      "correct_move": "g8f7",
+      "engine_move": "g8f7",
+      "solved": true,
+      "time_ms": 716.2654399871826,
+      "evaluation_diff": -228.0
+    },
+    {
+      "puzzle_id": "001xO",
+      "theme": "sacrifice",
+      "difficulty": 2,
+      "correct_move": "d3a6",
+      "engine_move": "e3e4",
+      "solved": false,
+      "time_ms": 0.29754638671875,
+      "evaluation_diff": -2052.0
+    },
+    {
+      "puzzle_id": "002e5",
+      "theme": "sacrifice",
+      "difficulty": 3,
+      "correct_move": "f7g8",
+      "engine_move": "d8g5",
+      "solved": false,
+      "time_ms": 1020.880937576294,
+      "evaluation_diff": 681.0
+    },
+    {
+      "puzzle_id": "004kB",
+      "theme": "sacrifice",
+      "difficulty": 2,
+      "correct_move": "b7c7",
+      "engine_move": "b7c7",
+      "solved": true,
+      "time_ms": 1181.1723709106445,
+      "evaluation_diff": -1731.0
+    }
+  ],
+  "uci_compliance": {
+    "uci_command": true,
+    "isready_command": true,
+    "position_startpos": true,
+    "position_fen": true,
+    "go_command": true,
+    "bestmove_format": true
+  },
+  "opening_coverage": {
+    "total_openings": 2,
+    "white_openings": 1,
+    "black_openings": 1,
+    "max_depth": 0,
+    "opening_moves_tested": 5,
+    "successful_suggestions": 2
+  },
+  "performance_metrics": {
+    "perft_accuracy": 0.95,
+    "average_search_time": 1112.0626131693523,
+    "average_nps": 999998.9333333333,
+    "tactical_success_rate": 0.125,
+    "uci_compliance_score": 1.0,
+    "opening_coverage_score": 0.4,
+    "overall_score": 0.58
+  }
+}

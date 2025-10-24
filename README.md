@@ -113,49 +113,49 @@ The engine provides comprehensive position analysis including:
 
 ### Puzzle Library
 - Find the fork (x3)
-  1. `r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1`
-  2. `rnbqkb1r/pppp1ppp/5n2/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 4 4`
-  3. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4`
+  1. fen: '5rk1/5ppp/4p3/4N3/8/1Pn5/5PPP/5RK1 w - - 0 28', moves: f1c1 c3e2 g1f1 e2c1, rating: 655, themes: crushing endgame fork short, link: https://lichess.org/2K7g2pDT#55
+  2. fen: 'r3brk1/5pp1/p1nqpn1p/P2pN3/2pP4/2P1PN2/5PPP/RB1QK2R b KQ - 4 16', moves: c6e5 d4e5 d6e7 e5f6, rating: 1237, themes: advantage fork middlegame short, link: https://lichess.org/fDwvVUIp/black#32
+  3. fen: '6k1/3bqr1p/2rpp1pR/p7/Pp1QP3/1B3P2/1PP3P1/2KR4 w - - 6 22', moves: d4a7 e7g5 c1b1 g5h6, rating: 993, themes: advantage fork master middlegame short, link: https://lichess.org/8RvK0idj#43
 
 - Find the discovered attack (x3)
-  1. `rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1`
-  2. `rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 2`
-  3. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3`
+  1. fen: 'r5k1/1p1rqpp1/p3pnp1/2PN4/8/1Q5P/PP3PP1/3RR1K1 b - - 0 24', moves: e7c5 d5f6 g7f6 d1d7, rating: 1062, themes: advantage discoveredAttack kingsideAttack master middlegame short, link: https://lichess.org/jAILX5BH/black#48
+  2. fen: '3r4/p1p2ppp/4k3/6Q1/5P2/4P3/Prqn2PP/3R1RK1 w - - 3 22', moves: g5d8 d2f3 g1h1 c2g2, rating: 1629, themes: discoveredAttack endgame mate mateIn2 short, link: https://lichess.org/SctCD3fJ#43
+  3. fen: '5rk1/5ppp/1p6/1qp2P1Q/3p3P/6R1/6PK/8 b - - 0 30', moves: c5c4 g3g7 g8g7 f5f6 g7f6 h5b5, rating: 1746, themes: attraction crushing discoveredAttack endgame long sacrifice, link: https://lichess.org/2UeWcE4h/black#60
 
 - Find checkmate in 1 (x3)
-  1. `rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3`
-  2. `rnbqkb1r/pppp1ppp/5n2/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 4 4`
-  3. `r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/3P4/PPP2PPP/RNBQK1NR b KQkq - 0 5`
+  1. fen: '8/6pp/4N1k1/5p2/5P2/5rPb/4R2P/6K1 w - - 0 35', moves: e6g5 f3f1, rating: 411, themes: endgame mate mateIn1 oneMove, link: https://lichess.org/jzHHsjDp#69
+  2. fen: 'Q5k1/p1p3p1/5rP1/8/3P4/7P/q3r3/B4RK1 b - - 1 34', moves: f6f8 a8f8, rating: 471, themes: endgame mate mateIn1 oneMove, link: https://lichess.org/1k4lXfEi/black#68
+  3. fen: '8/6kp/4b1q1/1p6/1PpPp2Q/2P1P3/r2N2P1/5RK1 w - - 7 34', moves: d2e4 g6g2, rating: 1126, themes: endgame master mate mateIn1 oneMove, link: https://lichess.org/ynNNLRgG#67
 
 - Find checkmate in 2 (x3)
-  1. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3`
-  2. `rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 2`
-  3. `r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 4 4`
+  1. fen: '3r2k1/1q3ppp/p2rp3/Qp1B4/7P/P4P2/1PP3P1/1K1R3R b - - 0 21', moves: d6d5 a5d8 d5d8 d1d8, rating: 1376, themes: backRankMate endgame mate mateIn2 short xRayAttack, link: https://lichess.org/6qWf8wOP/black#42
+  2. fen: '8/2pR2kp/pb4p1/8/5p1P/B6K/P1r5/6r1 b - - 3 39', moves: g7h6 a3f8 h6h5 d7h7, rating: 1822, themes: deflection endgame mate mateIn2 short, link: https://lichess.org/8sbUxgqT/black#78
+  3. fen: 'r5k1/pp3ppp/2p5/4pb2/2B2q2/P1P1nP2/1P1Q3P/3R1R1K b - - 1 22', moves: e3c4 d2d8 a8d8 d1d8, rating: 1574, themes: backRankMate master mate mateIn2 middlegame sacrifice short, link: https://lichess.org/I0tBjrDC/black#44
 
 - Find the pin (x3)
-  1. `rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3`
-  2. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/3P4/PPP2PPP/RNBQKBNR b KQkq - 0 4`
-  3. `rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3`
+  1. fen: '2rr2k1/5p2/4p2p/4N1pQ/1p3P2/4P3/np3P1P/2q2BRK b - - 1 32', moves: c8c7 h5h6 b2b1q h6g5, rating: 2465, themes: crushing kingsideAttack master middlegame pin short, link: https://lichess.org/Ri0duT8T/black#64
+  2. fen: '2r3k1/2r1q1p1/p3p1Q1/1p1p4/nP1P4/2P4R/P4PPP/2R3K1 b - - 0 30', moves: e7f6 g6h7 g8f7 h3f3 f6f3 g2f3, rating: 1422, themes: advantage long middlegame pin, link: https://lichess.org/nsAQV9mj/black#60
+  3. fen: '4r1k1/ppqb3p/6B1/3pb2Q/8/2P5/PP1B2PP/5RK1 b - - 0 20', moves: h7g6 h5g6 e5g7 f1f7 c7c5 g1h1 c5f8 f7f8, rating: 2008, themes: crushing middlegame pin veryLong, link: https://lichess.org/e986oDw6/black#40
 
 - Find the skewer (x3)
-  1. `r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 6 5`
-  2. `rnbqkb1r/ppp2ppp/3p1n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R b KQkq - 4 5`
-  3. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4`
+  1. fen: 'r7/7R/P3k3/4p2p/3b2p1/3K4/8/5R2 b - - 7 55', moves: a8a6 h7h6 e6d5 h6a6, rating: 969, themes: crushing endgame short skewer, link: https://lichess.org/N9FWAV9a/black#110
+  2. fen: '7k/Q1p3p1/5p1p/3q4/3Pr3/4P3/P4P1P/1R4K1 w - - 2 26', moves: a7c5 e4g4 g1f1 d5h1 f1e2 h1b1, rating: 1712, themes: crushing endgame long skewer, link: https://lichess.org/awh9vUFg#51
+  3. fen: '8/8/2k3P1/R7/P2p2rp/3K4/8/8 b - - 0 45', moves: g4g6 a5a6 c6d7 a6g6, rating: 1224, themes: crushing endgame master rookEndgame short skewer, link: https://lichess.org/vMSyus5U/black#90
 
-- Remove the guard (x3)
-  1. `rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3`
-  2. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4`
-  3. `rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 2`
+- Remove the guard (Interference/Attraction) (x3)
+  1. fen: 'GUvYW,3r3r/1p2pkb1/p1q4p/2p2Qp1/2N2nP1/2P1N3/PP3P2/2KR3R b - - 9 31', moves: c6f6 c4e5 f7g8 d1d8, rating: 1586, themes: crushing interference middlegame short, link: https://lichess.org/ztfNEvxj/black#62
+  2. fen: 'r1b1k3/ppp2p1p/8/3pb3/5qn1/5B2/PPP2PPP/RN1QR1K1 w q - 4 14', moves: f3g4 f4h2 g1f1 h2h1 f1e2 c8g4 e2d3 g4f5 d3d2 h1h6, rating: 2155, themes: crushing interference kingsideAttack middlegame veryLong, link: https://lichess.org/JAF55Fc9#27,Scotch_Game Scotch_Game_Classical_Variation
+  3. fen: '2R5/8/8/4B1pP/5KP1/r7/p2k4/8 w - - 0 54', moves: f4e4 a3e3 e4f5 e3e5 f5e5 a2a1q, rating: 1486, themes: advancedPawn attraction crushing endgame long promotion, link: https://lichess.org/0Te97k1C#107
 
 - Deflect the defense (x3)
-  1. `rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3`
-  2. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4`
-  3. `rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 2`
+  1. fen: '8/5ppk/1Q6/2pq3P/p7/3P2B1/2r2P1K/7R w - - 0 34', moves: b6d6 c2f2 g3f2 d5d6, rating: 1912, themes: advantage deflection endgame short, link: https://lichess.org/hM8N0iaZ#67
+  2. fen: '3q4/1pp3pk/1b2p2p/4Pp2/PpQ5/1P3NP1/5PBP/6K1 w - - 0 25', moves: c4e6 d8d1 g2f1 d1f3 e6b6 c7b6, rating: 1176, themes: crushing deflection endgame long, link: https://lichess.org/dwz5An0G#49
+  3. fen: 'Qn4k1/5p2/p2rp1p1/q3b1Np/6PP/2P5/1P1K4/3R3R w - - 0 27', moves: d2c2 a5a4 c2b1 d6d1 h1d1 a4d1, rating: 1189, themes: crushing deflection long middlegame, link: https://lichess.org/nrKVSPjP#53
 
 - Play a sacrifice (x3)
-  1. `r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 6 5`
-  2. `rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3`
-  3. `r1bqkbnr/pppp1ppp/2n5/4p3/4P3/3P4/PPP2PPP/RNBQKBNR b KQkq - 0 4`
+  1. fen: 'r2q1rk1/p1p1nppp/2p3b1/4P3/Q1P2PP1/4P2P/PP6/RN2KB1R w KQ - 0 14', moves: f4f5 e7f5 g4f5 d8h4, rating: 1763, themes: clearance crushing middlegame sacrifice short, link: https://lichess.org/kVnHF6Eh#27,Queens_Gambit_Declined Queens_Gambit_Declined_Albin_Countergambit
+  2. fen: 'r7/7R/2r1k3/3N4/p1P1K3/4P1P1/7P/8 w - - 2 33', moves: d5c7 c6c7 h7c7 a4a3, rating: 1352, themes: advantage endgame sacrifice short, link: https://lichess.org/8iPz7kFB#65
+  3. fen: '1q5r/1p1n1kp1/2p3p1/3p4/3PBn2/PQ3P1P/1P4P1/R1R3K1 w - - 1 26', moves: e4d3 f4h3 g2h3 b8g3 g1f1 h8h3, rating: 2489, themes: advantage clearance intermezzo kingsideAttack long middlegame sacrifice, link: https://lichess.org/UZMmtXz8#51
 
 ## 🔧 Usage Examples
 
