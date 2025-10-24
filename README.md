@@ -1,5 +1,5 @@
 # Gotham Chess Engine
-Gotham Chess Engine is a chess engine built from the cumulative chess knowledge of the chess Youtuber GothamChess (Levy Rozman). The engine is designed to provide strong chess play and analysis, leveraging modern algorithms and techniques. It aims be approachable to beginners by applying the same principles Levy teaches in his recently release hbook "How To Win At Chess" and his Chess Deck product.
+Gotham Chess Engine is a chess engine built from the cumulative chess knowledge of the chess Youtuber GothamChess (Levy Rozman). The engine is designed to provide strong chess play and analysis, leveraging modern algorithms and techniques. It aims be approachable to beginners by applying the same principles Levy teaches in his recently released book "How To Win At Chess" and his Chess Deck product.
 
 ## 🚀 Quick Start
 
@@ -71,8 +71,8 @@ The engine includes Gotham Chess's recommended openings with educational explana
 3. **Ruy Lopez** - Classical opening for positional understanding
 
 #### For Black:
-1. **Scandinavian Defense** - Levy's top recommendation for Black
-2. **Caro-Kann Defense** - Solid and reliable defense
+1. **Caro-Kann Defense** - Levy's top recommendation for Black
+2. **Scandinavian Defense** - Aggressive counter attack in response to 1. e4
 3. **Queen's Gambit Declined** - Classical central control
 
 ### Position Analysis
@@ -82,6 +82,42 @@ The engine provides comprehensive position analysis including:
 - **Development scores** tracking piece mobilization
 - **Center control** measuring influence over key squares
 - **Tactical motif detection** (forks, pins, skewers, etc.)
+
+### Fork Position Examples
+
+The engine recognizes various fork patterns where one piece attacks two or more enemy pieces simultaneously:
+
+#### Knight Forks
+1. **Royal Fork** - Knight attacks both king and rook:
+   ```
+   Position: r3k3/8/8/3N4/8/8/8/4K3 w - - 0 1
+   Move: Nd5 forks the king on e8 and rook on a8
+   ```
+
+2. **Family Fork** - Knight attacks king, queen, and rook:
+   ```
+   Position: r2qk3/8/8/3N4/8/8/8/4K3 w - - 0 1
+   Move: Nd5 forks multiple pieces
+   ```
+
+#### Piece Forks
+1. **Bishop Fork** - Bishop attacks two pieces on a diagonal:
+   ```
+   Position: r3k2r/8/8/8/8/8/3B4/4K3 w - - 0 1
+   Move: Bd2-h6 can fork pieces on diagonal
+   ```
+
+2. **Rook Fork** - Rook attacks pieces on same rank/file:
+   ```
+   Position: 4k3/8/8/8/r2r4/8/8/4K3 w - - 0 1
+   Rook on a4 forks the rooks on d4
+   ```
+
+3. **Queen Fork** - Queen's long range creates powerful forks:
+   ```
+   Position: r3k2r/8/8/8/3Q4/8/8/4K3 w - - 0 1
+   Queen on d4 can fork multiple pieces
+   ```
 
 ## Components
 

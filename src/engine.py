@@ -168,13 +168,20 @@ class GothamChessEngine:
         def move_priority(move):
             score = 0
             
-            # Captures first
+            # Tactical motifs get highest priority (new best practice)
+            if hasattr(self, '_tactical_recognizer'):
+                tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+                if tactics:
+                    tactical_value = sum(tactics.values())
+                    score += tactical_value  # High priority for tactical moves
+            
+            # Captures second priority
             if board.is_capture(move):
                 captured_piece = board.piece_at(move.to_square)
                 if captured_piece:
                     score += self.piece_evaluator.get_piece_value(captured_piece.piece_type) * 10
             
-            # Checks
+            # Checks third priority
             board.push(move)
             if board.is_check():
                 score += 50
@@ -297,7 +304,7 @@ class GothamChessEngine:
     
     def _evaluate_tactical_factors(self, board: GothamBoard) -> float:
         """
-        Evaluate tactical patterns and threats.
+        Evaluate tactical patterns and threats using best practices.
         
         Args:
             board: Board position
@@ -305,62 +312,69 @@ class GothamChessEngine:
         Returns:
             float: Tactical evaluation
         """
+        from .core.tactical_recognizer import TacticalPatternRecognizer, TacticalMotif
+        
+        if not hasattr(self, '_tactical_recognizer'):
+            self._tactical_recognizer = TacticalPatternRecognizer()
+        
         score = 0.0
+        color_multiplier = 1 if board.turn == chess.WHITE else -1
         
-        # Check for immediate tactical threats
-        for move in board.legal_moves:
-            # Create a copy and make the move
-            temp_board = board.copy()
-            temp_board.push(move)
-            
-            # Check if this move creates powerful tactical motifs
-            if temp_board.is_check():
-                score += 50 if board.turn == chess.WHITE else -50
-            
-            # Check for captures that win material
-            if board.is_capture(move):
-                captured_piece = board.piece_at(move.to_square)
-                if captured_piece:
-                    captured_value = self.piece_evaluator.get_piece_value(captured_piece.piece_type)
-                    attacking_piece = board.piece_at(move.from_square)
-                    if attacking_piece:
-                        attacking_value = self.piece_evaluator.get_piece_value(attacking_piece.piece_type)
-                        # Good capture if we take more valuable piece or equal trade
-                        if captured_value >= attacking_value:
-                            score += (captured_value - attacking_value) * 10
-                            if board.turn == chess.WHITE:
-                                score += captured_value
-                            else:
-                                score -= captured_value
-            
-            # Check for forks (attacking multiple pieces)
-            fork_bonus = self._evaluate_fork_potential(temp_board, move)
-            score += fork_bonus if board.turn == chess.WHITE else -fork_bonus
-            
-            temp_board.pop()
+        # Analyze best tactical moves for current player
+        best_moves = []
+        for move in list(board.legal_moves)[:20]:  # Analyze top 20 moves for performance
+            tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+            if tactics:
+                move_value = sum(tactics.values())
+                best_moves.append((move, move_value, tactics))
         
-        # Check for tactical motifs in current position
-        motifs = board.is_tactical_motif_present()
+        # Sort by tactical value
+        best_moves.sort(key=lambda x: x[1], reverse=True)
         
-        if motifs.get("fork", False):
-            score += 200 if board.turn == chess.WHITE else -200
+        # Apply tactical bonuses with proper weights
+        for move, total_value, tactics in best_moves[:5]:  # Top 5 tactical moves
+            for motif, value in tactics.items():
+                # Apply README-specified tactical motif weights
+                if motif == TacticalMotif.MATE_IN_ONE:
+                    score += 10000 * color_multiplier
+                elif motif == TacticalMotif.MATE_IN_TWO:
+                    score += 5000 * color_multiplier
+                elif motif == TacticalMotif.BACK_RANK_MATE:
+                    score += 800 * color_multiplier
+                elif motif == TacticalMotif.SMOTHERED_MATE:
+                    score += 1000 * color_multiplier
+                elif motif == TacticalMotif.FORK:
+                    score += min(value * 0.8, 600) * color_multiplier
+                elif motif == TacticalMotif.PIN:
+                    score += min(value * 0.7, 400) * color_multiplier
+                elif motif == TacticalMotif.SKEWER:
+                    score += min(value * 0.9, 500) * color_multiplier
+                elif motif == TacticalMotif.DISCOVERED_ATTACK:
+                    score += min(value * 0.6, 350) * color_multiplier
+                elif motif == TacticalMotif.DEFLECTION:
+                    score += min(value * 0.5, 300) * color_multiplier
+                elif motif == TacticalMotif.SACRIFICE:
+                    score += min(value * 0.4, 250) * color_multiplier
+                elif motif == TacticalMotif.EN_PASSANT:
+                    score += 120 * color_multiplier
+                elif motif == TacticalMotif.REMOVE_GUARD:
+                    score += min(value * 0.6, 350) * color_multiplier
         
-        if motifs.get("pin", False):
-            score += 100 if board.turn == chess.WHITE else -100
+        # Defensive considerations - penalize allowing opponent tactics
+        opponent_threats = 0.0
+        temp_board = board.copy()
+        temp_board.push(chess.Move.null())  # Pass turn to opponent
         
-        if motifs.get("back_rank_mate", False):
-            score += 500 if board.turn == chess.WHITE else -500
+        try:
+            for opp_move in list(temp_board.legal_moves)[:15]:  # Check top 15 opponent moves
+                opp_tactics = self._tactical_recognizer.analyze_move_tactics(temp_board, opp_move)
+                if opp_tactics:
+                    threat_value = sum(opp_tactics.values())
+                    opponent_threats += threat_value * 0.3  # Reduced weight for opponent threats
+        except:
+            pass  # Handle any board state issues
         
-        # Check for mate threats
-        if board.is_check():
-            # Being in check is bad
-            score -= 30 if board.turn == chess.WHITE else 30
-            
-            # But having few escape moves is worse
-            escape_moves = sum(1 for move in board.legal_moves 
-                             if not board.copy().push(move) or not board.copy().is_check())
-            if escape_moves <= 2:
-                score -= 100 if board.turn == chess.WHITE else 100
+        score -= opponent_threats * color_multiplier
         
         return score
     
