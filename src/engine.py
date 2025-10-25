@@ -38,6 +38,11 @@ class GothamChessEngine:
         self.opening_book = GothamOpeningBook()
         self.piece_evaluator = GothamPieceEvaluator()
         self.tactical_patterns = GothamTacticalPatterns()
+        
+        # Initialize tactical recognizer for best practices evaluation
+        from .core.tactical_recognizer import TacticalPatternRecognizer
+        self._tactical_recognizer = TacticalPatternRecognizer()
+        
         self.time_limit = time_limit
         self.search_depth = 4  # Default search depth
         self.educational_mode = True
@@ -83,10 +88,13 @@ class GothamChessEngine:
         if opening_move:
             return opening_move
         
+        # Determine search depth based on tactical potential
+        search_depth = self._get_adaptive_search_depth(self.board)
+        
         # Use search algorithm for middle game and endgame
         best_move, _ = self._minimax(
             self.board, 
-            self.search_depth, 
+            search_depth, 
             -float('inf'), 
             float('inf'), 
             self.board.turn,
@@ -115,9 +123,12 @@ class GothamChessEngine:
         if time.time() - start_time > self.time_limit:
             return None, self.evaluate_position(board)
         
-        # Base case
+        # Base case - use quiescence search for tactical positions
         if depth == 0 or board.is_game_over():
-            return None, self.evaluate_position(board)
+            if board.is_game_over():
+                return None, self.evaluate_position(board)
+            # Use quiescence search to handle tactical sequences
+            return None, self._quiescence_search(board, alpha, beta, maximizing_player, start_time)
         
         best_move = None
         
@@ -154,6 +165,199 @@ class GothamChessEngine:
             
             return best_move, min_eval
     
+    def _quiescence_search(self, board: GothamBoard, alpha: float, beta: float, 
+                          maximizing_player: bool, start_time: float, depth: int = 0) -> float:
+        """
+        Quiescence search for tactical sequences.
+        
+        Continues searching beyond normal depth for captures, checks, and promotions
+        to avoid horizon effect in tactical positions.
+        
+        Args:
+            board: Current board position
+            alpha: Alpha value for pruning
+            beta: Beta value for pruning
+            maximizing_player: Whether this is the maximizing player
+            start_time: Start time for time management
+            depth: Current quiescence depth (for limiting)
+            
+        Returns:
+            float: Position evaluation
+        """
+        # Time check
+        if time.time() - start_time > self.time_limit:
+            return self.evaluate_position(board)
+        
+        # Limit quiescence depth to avoid infinite search
+        if depth > 3:  # Reduced from 6 to 3 for efficiency
+            return self.evaluate_position(board)
+        
+        # Stand pat evaluation - can we improve without making a move?
+        stand_pat = self.evaluate_position(board)
+        
+        if maximizing_player:
+            if stand_pat >= beta:
+                return beta  # Beta cutoff
+            alpha = max(alpha, stand_pat)
+        else:
+            if stand_pat <= alpha:
+                return alpha  # Alpha cutoff
+            beta = min(beta, stand_pat)
+        
+        # Generate only "noisy" moves (captures, checks, promotions)
+        noisy_moves = self._get_noisy_moves(board)
+        
+        if not noisy_moves:
+            return stand_pat  # No tactical moves, return stand pat
+        
+        # Order the noisy moves by tactical value
+        ordered_moves = self._order_moves(board, noisy_moves)
+        
+        if maximizing_player:
+            max_eval = stand_pat
+            for move in ordered_moves:
+                board.push(move)
+                eval_score = self._quiescence_search(board, alpha, beta, False, start_time, depth + 1)
+                board.pop()
+                
+                max_eval = max(max_eval, eval_score)
+                alpha = max(alpha, eval_score)
+                if beta <= alpha:
+                    break  # Alpha-beta pruning
+            
+            return max_eval
+        else:
+            min_eval = stand_pat
+            for move in ordered_moves:
+                board.push(move)
+                eval_score = self._quiescence_search(board, alpha, beta, True, start_time, depth + 1)
+                board.pop()
+                
+                min_eval = min(min_eval, eval_score)
+                beta = min(beta, eval_score)
+                if beta <= alpha:
+                    break  # Alpha-beta pruning
+            
+            return min_eval
+    
+    def _get_noisy_moves(self, board: GothamBoard) -> List[chess.Move]:
+        """
+        Get 'noisy' moves that should be searched in quiescence.
+        
+        Args:
+            board: Current board position
+            
+        Returns:
+            List[chess.Move]: List of tactical moves to search
+        """
+        noisy_moves = []
+        
+        for move in board.legal_moves:
+            # Good captures only (winning material)
+            if board.is_capture(move):
+                captured_piece = board.piece_at(move.to_square)
+                moving_piece = board.piece_at(move.from_square)
+                if captured_piece and moving_piece:
+                    captured_value = self.piece_evaluator.get_piece_value(captured_piece.piece_type)
+                    moving_value = self.piece_evaluator.get_piece_value(moving_piece.piece_type)
+                    # Only include captures that don't lose material or equal trades of valuable pieces
+                    if captured_value >= moving_value or captured_value >= 300:
+                        noisy_moves.append(move)
+            # Checks that aren't just moving to safety
+            elif self._gives_check(board, move):
+                # Only include checks if the checking piece isn't hanging
+                temp_board = board.copy()
+                temp_board.push(move)
+                if not temp_board.is_attacked_by(not board.turn, move.to_square):
+                    noisy_moves.append(move)
+            # Promotions (always tactical)
+            elif move.promotion:
+                noisy_moves.append(move)
+            # High-value tactical moves only
+            elif hasattr(self, '_tactical_recognizer'):
+                tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+                if tactics:
+                    total_value = sum(tactics.values())
+                    if total_value >= 200:  # Only high-value tactics
+                        noisy_moves.append(move)
+        
+        # Limit the number of noisy moves to search (best 8 only)
+        if len(noisy_moves) > 8:
+            move_values = []
+            for move in noisy_moves:
+                value = 0
+                if board.is_capture(move):
+                    captured_piece = board.piece_at(move.to_square)
+                    if captured_piece:
+                        value = self.piece_evaluator.get_piece_value(captured_piece.piece_type)
+                elif hasattr(self, '_tactical_recognizer'):
+                    tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+                    if tactics:
+                        value = sum(tactics.values())
+                move_values.append((move, value))
+            
+            # Sort by value and take top 8
+            move_values.sort(key=lambda x: x[1], reverse=True)
+            noisy_moves = [move for move, value in move_values[:8]]
+        
+        return noisy_moves
+    
+    def _gives_check(self, board: GothamBoard, move: chess.Move) -> bool:
+        """Check if a move gives check."""
+        board.push(move)
+        is_check = board.is_check()
+        board.pop()
+        return is_check
+    
+    def _get_adaptive_search_depth(self, board: GothamBoard) -> int:
+        """
+        Determine search depth based on tactical potential.
+        
+        Args:
+            board: Current board position
+            
+        Returns:
+            int: Adaptive search depth
+        """
+        base_depth = self.search_depth
+        
+        # Count tactical potential in current position
+        tactical_moves = 0
+        high_value_tactics = 0
+        
+        if hasattr(self, '_tactical_recognizer'):
+            for move in list(board.legal_moves)[:15]:  # Check top 15 moves
+                tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+                if tactics:
+                    tactical_moves += 1
+                    total_value = sum(tactics.values())
+                    if total_value >= 500:  # High-value tactical motifs
+                        high_value_tactics += 1
+        
+        # Check for forcing moves (captures, checks)
+        forcing_moves = 0
+        for move in board.legal_moves:
+            if board.is_capture(move) or self._gives_check(board, move):
+                forcing_moves += 1
+        
+        # Adaptive depth calculation
+        depth_bonus = 0
+        
+        # Bonus for tactical richness (more conservative)
+        if tactical_moves >= 4:  # Increased threshold
+            depth_bonus += 1
+        if high_value_tactics >= 2:  # Increased threshold
+            depth_bonus += 1
+        
+        # Bonus for highly forcing positions only
+        if forcing_moves >= 12:  # Increased threshold
+            depth_bonus += 1
+        
+        # Limit the maximum depth increase (more conservative)
+        adaptive_depth = min(base_depth + depth_bonus, base_depth + 1)  # Max +1 instead of +2
+        
+        return adaptive_depth
+
     def _order_moves(self, board: GothamBoard, moves: List[chess.Move]) -> List[chess.Move]:
         """
         Order moves for better alpha-beta pruning.
@@ -310,20 +514,44 @@ class GothamChessEngine:
             board: Board position
             
         Returns:
-            float: Tactical evaluation
+            float: Tactical evaluation (positive favors White)
         """
         from .core.tactical_recognizer import TacticalPatternRecognizer, TacticalMotif
         
         if not hasattr(self, '_tactical_recognizer'):
             self._tactical_recognizer = TacticalPatternRecognizer()
         
-        score = 0.0
-        color_multiplier = 1 if board.turn == chess.WHITE else -1
+        # Evaluate tactical opportunities for both sides
+        white_tactical_score = self._evaluate_side_tactics(board, chess.WHITE)
+        black_tactical_score = self._evaluate_side_tactics(board, chess.BLACK)
         
-        # Analyze best tactical moves for current player
+        # Return net tactical advantage (positive favors White)
+        return white_tactical_score - black_tactical_score
+    
+    def _evaluate_side_tactics(self, board: GothamBoard, color: chess.Color) -> float:
+        """
+        Evaluate tactical opportunities for one side.
+        
+        Args:
+            board: Board position
+            color: Color to evaluate tactics for
+            
+        Returns:
+            float: Tactical score for this side
+        """
+        from .core.tactical_recognizer import TacticalMotif
+        
+        score = 0.0
+        
+        # NEVER mutate the original board during evaluation!
+        # Create a copy and set the turn on the copy
+        temp_board = board.copy()
+        temp_board.turn = color
+        
+        # Analyze best tactical moves for this color
         best_moves = []
-        for move in list(board.legal_moves)[:20]:  # Analyze top 20 moves for performance
-            tactics = self._tactical_recognizer.analyze_move_tactics(board, move)
+        for move in list(temp_board.legal_moves)[:15]:  # Top 15 moves for performance
+            tactics = self._tactical_recognizer.analyze_move_tactics(temp_board, move)
             if tactics:
                 move_value = sum(tactics.values())
                 best_moves.append((move, move_value, tactics))
@@ -331,50 +559,34 @@ class GothamChessEngine:
         # Sort by tactical value
         best_moves.sort(key=lambda x: x[1], reverse=True)
         
-        # Apply tactical bonuses with proper weights
-        for move, total_value, tactics in best_moves[:5]:  # Top 5 tactical moves
+        # Apply tactical bonuses
+        for move, total_value, tactics in best_moves[:3]:  # Top 3 tactical moves
             for motif, value in tactics.items():
                 # Apply README-specified tactical motif weights
                 if motif == TacticalMotif.MATE_IN_ONE:
-                    score += 10000 * color_multiplier
+                    score += 10000
                 elif motif == TacticalMotif.MATE_IN_TWO:
-                    score += 5000 * color_multiplier
+                    score += 5000
                 elif motif == TacticalMotif.BACK_RANK_MATE:
-                    score += 800 * color_multiplier
+                    score += 800
                 elif motif == TacticalMotif.SMOTHERED_MATE:
-                    score += 1000 * color_multiplier
+                    score += 1000
                 elif motif == TacticalMotif.FORK:
-                    score += min(value * 0.8, 600) * color_multiplier
+                    score += min(value * 0.8, 600)
                 elif motif == TacticalMotif.PIN:
-                    score += min(value * 0.7, 400) * color_multiplier
+                    score += min(value * 0.7, 400)
                 elif motif == TacticalMotif.SKEWER:
-                    score += min(value * 0.9, 500) * color_multiplier
+                    score += min(value * 0.9, 500)
                 elif motif == TacticalMotif.DISCOVERED_ATTACK:
-                    score += min(value * 0.6, 350) * color_multiplier
+                    score += min(value * 0.6, 350)
                 elif motif == TacticalMotif.DEFLECTION:
-                    score += min(value * 0.5, 300) * color_multiplier
+                    score += min(value * 0.5, 300)
                 elif motif == TacticalMotif.SACRIFICE:
-                    score += min(value * 0.4, 250) * color_multiplier
+                    score += min(value * 0.4, 250)
                 elif motif == TacticalMotif.EN_PASSANT:
-                    score += 120 * color_multiplier
+                    score += 120
                 elif motif == TacticalMotif.REMOVE_GUARD:
-                    score += min(value * 0.6, 350) * color_multiplier
-        
-        # Defensive considerations - penalize allowing opponent tactics
-        opponent_threats = 0.0
-        temp_board = board.copy()
-        temp_board.push(chess.Move.null())  # Pass turn to opponent
-        
-        try:
-            for opp_move in list(temp_board.legal_moves)[:15]:  # Check top 15 opponent moves
-                opp_tactics = self._tactical_recognizer.analyze_move_tactics(temp_board, opp_move)
-                if opp_tactics:
-                    threat_value = sum(opp_tactics.values())
-                    opponent_threats += threat_value * 0.3  # Reduced weight for opponent threats
-        except:
-            pass  # Handle any board state issues
-        
-        score -= opponent_threats * color_multiplier
+                    score += min(value * 0.6, 350)
         
         return score
     

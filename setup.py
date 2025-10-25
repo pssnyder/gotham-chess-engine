@@ -13,7 +13,7 @@ setup(
     description="A chess engine built from the cumulative chess knowledge of GothamChess (Levy Rozman)",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/gotham-chess-engine",
+    url="https://github.com/pssnyder/gotham-chess-engine",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[

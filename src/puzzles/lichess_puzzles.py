@@ -200,10 +200,13 @@ class LichessPuzzleLibrary:
             fen = row.get('FEN', '')
             moves = row.get('Moves', '').split()
             
-            if not moves:
+            if len(moves) < 2:  # Need at least opponent move + our response
                 return None
             
-            solution = moves[0]  # First move is the solution
+            # In Lichess puzzles:
+            # moves[0] = opponent's move (blunder/poor move)
+            # moves[1] = our correct response (the actual solution)
+            solution = moves[1] if len(moves) > 1 else moves[0]
             rating = int(row.get('Rating', 0)) if row.get('Rating', '').isdigit() else 1200
             themes = row.get('Themes', '').split()
             url = row.get('GameUrl', '')

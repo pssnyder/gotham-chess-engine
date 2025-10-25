@@ -254,17 +254,36 @@ class GothamEngineAnalyzer:
                 for puzzle in category_puzzles:
                     start_time = time.time()
                     
-                    # Set up position
+                    # Set up initial position
                     self.engine.set_position(puzzle.fen)
                     
-                    # Get engine move
+                    # Make the opponent's move (first move in solution sequence)
+                    if len(puzzle.moves) >= 2:
+                        try:
+                            opponent_move = chess.Move.from_uci(puzzle.moves[0])
+                            if opponent_move in self.engine.board.legal_moves:
+                                self.engine.board.push(opponent_move)
+                            else:
+                                # Skip this puzzle if opponent move is illegal
+                                print(f"  {puzzle.puzzle_id}: SKIPPED - Illegal opponent move {puzzle.moves[0]}")
+                                continue
+                        except:
+                            # Skip this puzzle if move parsing fails
+                            print(f"  {puzzle.puzzle_id}: SKIPPED - Invalid move format {puzzle.moves[0]}")
+                            continue
+                    else:
+                        # Skip puzzles without enough moves
+                        print(f"  {puzzle.puzzle_id}: SKIPPED - Insufficient moves")
+                        continue
+                    
+                    # Get engine move (should find the tactical solution)
                     engine_move = self.engine.get_best_move()
                     engine_move_str = str(engine_move) if engine_move else "None"
                     
                     end_time = time.time()
                     time_ms = (end_time - start_time) * 1000
                     
-                    # Check if correct
+                    # Check if correct (compare with moves[1] - our solution)
                     solved = engine_move_str == puzzle.solution
                     if solved:
                         category_solved += 1
